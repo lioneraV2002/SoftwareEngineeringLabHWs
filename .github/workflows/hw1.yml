@@ -1,38 +1,60 @@
 # .github/workflows/deploy.yml
-name: Deploy React App to GitHub Pages
+name: Deploy React App for hw1 Folder to GitHub Pages
+
 on:
   push:
-    branches: [ master ]
+    branches: [master]
+    paths:
+      - 'hw1/**'  # Trigger on changes in hw1 folder
   pull_request:
-    branches: [ master ]
+    branches: [master]
+    paths:
+      - 'hw1/**'
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hw1  # Set working directory to hw1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'npm'
+          cache-dependency-path: hw1/package.json  # Use existing package.json
+
       - name: Install dependencies
         run: npm ci
+
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_URL: /react-portfolio  # Set base path for GitHub Pages
+
       - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/configure-pages@v5
         with:
-          path: './build'
+          static_site_generator: false
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3  # Fix deprecated version
+        with:
+          path: hw1/build  # Artifact path relative to repository root
+
   deploy:
     environment:
       name: github-pages
@@ -42,4 +64,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
