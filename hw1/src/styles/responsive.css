@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .section {
+    padding: 2rem 1rem;
+  }
+}
