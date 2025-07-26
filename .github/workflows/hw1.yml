@@ -10,6 +10,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # This is crucial for the bot to push to gh-pages
+      pages: write # Recommended for GitHub Pages deployments
+      id-token: write # Required for OIDC, good practice for modern deployments
+
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,11 +35,17 @@ jobs:
           cd hw1
           npm run build
 
+      - name: Build hw1
+        run: |
+          cd hw1
+          npm run build # This step should now consistently succeed!
+
       - name: Deploy hw1 to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./hw1/build # This is crucial: publish the build folder of hw1
+          publish_dir: ./hw1/build
+          publish_branch: gh-pages
           # cname: YOUR_USERNAME.github.io # If you have a custom domain for the main repo
           # This is how you target a subfolder:
           # By default, peaceiris/actions-gh-pages publishes to the root of gh-pages.
