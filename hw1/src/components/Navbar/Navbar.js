@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import ThemeToggle from '../ThemeToggle/ThemeToggle.js';
 import './Navbar.css';
 
 const Navbar = () => {
