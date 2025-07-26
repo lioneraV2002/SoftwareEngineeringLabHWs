@@ -1,57 +1,61 @@
-# .github/workflows/deploy.yml
-name: Deploy React App for hw1 Folder to GitHub Pages
+name: Deploy hw1 to GitHub Pages
+
 on:
   push:
-    branches: [master]
+    branches:
+      - master # Or whatever your main branch is
     paths:
-      - 'hw1/**'
-  pull_request:
-    branches: [master]
-    paths:
-      - 'hw1/**'
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+      - 'hw1/**' # Trigger only when changes occur in hw1 folder
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: hw1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node.js
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: hw1/package.json
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-        env:
-          PUBLIC_URL: /react-portfolio # Match homepage path
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+          node-version: '18' # Or your preferred Node.js version
+
+      - name: Install dependencies for hw1
+        run: |
+          cd hw1
+          npm install
+
+      - name: Build hw1
+        run: |
+          cd hw1
+          npm run build
+
+      - name: Deploy hw1 to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          static_site_generator: false
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: hw1/build
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./hw1/build # This is crucial: publish the build folder of hw1
+          # cname: YOUR_USERNAME.github.io # If you have a custom domain for the main repo
+          # This is how you target a subfolder:
+          # By default, peaceiris/actions-gh-pages publishes to the root of gh-pages.
+          # To publish to a subfolder, you need to copy the build output
+          # into a structure that mirrors your desired URL.
+          # A common approach is to build all projects into a 'deploy' folder
+          # at the root, maintaining the subfolder structure.
+
+      # Example for a multi-project deployment with a custom deploy folder:
+      # This approach makes a 'deploy' folder at the root of your repo
+      # and copies each project's build output into its respective subfolder
+      # within 'deploy'. Then, 'deploy' is published to gh-pages.
+
+      # - name: Create deployment directory
+      #   run: mkdir -p deploy/hw1
+
+      # - name: Copy hw1 build to deployment directory
+      #   run: cp -r hw1/build/* deploy/hw1/
+
+      # - name: Deploy 'deploy' folder to GitHub Pages
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./deploy
+      #     cname: YOUR_USERNAME.github.io # If you have a custom domain for the main repo
