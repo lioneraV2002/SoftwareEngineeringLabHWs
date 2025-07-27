@@ -10,7 +10,7 @@ import { ThemeProvider } from './context/ThemeContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename={process.env.NODE_ENV === 'production' ? '/react-portfolio' : ''}>
+    <BrowserRouter basename={process.env.NODE_ENV === 'development' ? '/react-portfolio' : ''}>
       <ThemeProvider>
         <App />
       </ThemeProvider>

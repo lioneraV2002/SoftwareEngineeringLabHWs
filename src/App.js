@@ -9,7 +9,6 @@ import './App.css';
 function App() {
   return (
     // Use BrowserRouter and set the basename
-    <Router basename='/SoftwareEngineeringLabHWs'>
       <div className="App">
         <Navbar />
         <main className="main-content">
@@ -21,7 +20,6 @@ function App() {
           </Routes>
         </main>
       </div>
-    </Router>
   );
 }
 
