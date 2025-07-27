@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master # Or whatever your main branch is
-    paths:
-      - 'hw1/**' # Trigger only when changes occur in hw1 folder
-      - '.github/workflows/**'
 
 jobs:
   build-and-deploy:
@@ -26,26 +23,23 @@ jobs:
         with:
           node-version: '18' # Or your preferred Node.js version
 
-      - name: Install dependencies for hw1
+      - name: Install dependencies 
         run: |
-          cd hw1
           npm install
 
-      - name: Build hw1
+      - name: Build 
         run: |
-          cd hw1
           npm run build
 
-      - name: Build hw1
+      - name: Build
         run: |
-          cd hw1
           npm run build # This step should now consistently succeed!
 
       - name: Deploy hw1 to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./hw1/build
+          publish_dir: ./build
           publish_branch: gh-pages
           # cname: YOUR_USERNAME.github.io # If you have a custom domain for the main repo
           # This is how you target a subfolder:
