@@ -98,13 +98,13 @@ const Contact = () => {
             </ul>
 
             <div className="social-links">
-              <a href="#" className="social-link" aria-label="Twitter">
+              <a href="https://twitter.com/" className="social-link" aria-label="Twitter">
                 <span className="social-text">Twitter</span>
               </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/" className="social-link" aria-label="LinkedIn">
                 <span className="social-text">LinkedIn</span>
               </a>
-              <a href="#" className="social-link" aria-label="GitHub">
+              <a href="https://github.com/" className="social-link" aria-label="GitHub">
                 <span className="social-text">GitHub</span>
               </a>
             </div>
