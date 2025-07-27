@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   return (
     // Use BrowserRouter and set the basename
-    <Router>
+    <Router basename='/SoftwareEngineeringLabHWs'>
       <div className="App">
         <Navbar />
         <main className="main-content">
