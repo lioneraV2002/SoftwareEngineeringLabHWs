@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   return (
     // Use BrowserRouter and set the basename
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <div className="App">
         <Navbar />
         <main className="main-content">
